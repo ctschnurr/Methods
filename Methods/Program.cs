@@ -32,27 +32,48 @@ namespace Methods
             lives = 3;
 
             ShowHud();
+            Console.WriteLine("Press any key to advance the demo.");
+            Pause();
+            Console.WriteLine("First we will simulate 5 instances of damage taken.");
+            Pause();
 
-            Console.WriteLine("First we will simulate 5 rounds of battle.");
+            SimFight();
+            ShowHud();
+            Pause();
+            
+            SimFight();
+            ShowHud();
+            Pause();
+
+            SimFight();
+            ShowHud();
+            Pause();
+
+            SimFight();
+            ShowHud();
+            Pause();
+
+            SimFight();
+            ShowHud();
+            Pause();
+
+            Console.WriteLine("Now we will simulate 5 victories.");
             Pause();
 
             ShowHud();
-            SimFight();
+            SimWin();
 
             ShowHud();
-            
-            SimFight();
+            SimWin();
+
             ShowHud();
-            
-            SimFight();
+            SimWin();
+
             ShowHud();
-           
-            SimFight();
+            SimWin();
+
             ShowHud();
-            
-            SimFight();
-            ShowHud();
-            
+            SimWin();
 
             Console.WriteLine("Now the demo will end");
             Pause();
@@ -81,10 +102,9 @@ namespace Methods
 
         static void Pause()
         {
-            Console.WriteLine("");
-            Console.WriteLine("Press any key to continue");
-            Console.WriteLine("");
+            
             Console.ReadKey();
+            Console.WriteLine("");
         }
 
         static void SimFight()
@@ -105,12 +125,15 @@ namespace Methods
 
                 if (health < 0)
                 {
+                    Pause();
                     Console.WriteLine("");
                     Console.Write("Player has ");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("DIED");
                     Console.ResetColor();
                     Console.WriteLine("!");
+                    Pause();
+                    Console.WriteLine("One life hase been used.");
                     lives = (lives - 1);
                     
                     if (lives == -1)
