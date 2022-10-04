@@ -10,6 +10,7 @@ namespace Methods
     {
 
         static string gameName;
+        static string studioName;
         static string newFeature;
 
         static float score;
@@ -23,8 +24,9 @@ namespace Methods
         static void Main(string[] args)
         {
             gameName = "STATS TESTER!";
+            studioName = "Schnurr Studio!";
             newFeature = "METHODS!";
-            
+
             score = 0;
             multiplier = 1;
             health = 100;
@@ -32,45 +34,18 @@ namespace Methods
             lives = 3;
 
             ShowHud();
-            Console.WriteLine("Press any key to advance the demo.");
-            Pause();
-            Console.WriteLine("First we will simulate 5 instances of damage taken.");
-            Pause();
 
-            int count = 0;
-            while (count < 5)
+            while (choice.Key != ConsoleKey.D0)
             {
-                SimFight();
                 ShowHud();
-                Pause();
-                count++;
+                makeChoice();
             }
-            
-            
-            
 
-            Console.WriteLine("Now we will simulate 5 victories.");
+            Console.WriteLine("");
+            Console.Write("Thank you for playing " + gameName + " By " + studioName);
             Pause();
 
-            ShowHud();
-            SimWin();
 
-            ShowHud();
-            SimWin();
-
-            ShowHud();
-            SimWin();
-
-            ShowHud();
-            SimWin();
-
-            ShowHud();
-            SimWin();
-
-            Console.WriteLine("Now the demo will end");
-            Pause();
-
-                        
         }
 
         static void ShowHud()
@@ -83,19 +58,93 @@ namespace Methods
             Console.Clear();
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("  Welcome to " + gameName + " Now with " + newFeature.PadRight(38) + "By Schnurr Studio");
+            Console.WriteLine("  Welcome to " + gameName + " Now with " + newFeature.PadRight(38) + "By " + studioName);
             Console.WriteLine(".------------------------------------------------------------------------------------------.");
             Console.WriteLine("|        Health: " + hudHealth.PadRight(12) + "Lives: " + hudLives.PadRight(12) + "Score: " + hudScore.PadRight(12) + "Multiplier: " + hudMult.PadRight(12) + "|");
             Console.WriteLine("'------------------------------------------------------------------------------------------'");
             Console.WriteLine("");
+        }
 
+        static void makeChoice()
+        {
+            Console.WriteLine("Please choose from the following options:");
+            Console.WriteLine("");
+            Console.WriteLine("  1 - Simulate random damage");
+            Console.WriteLine("  2 - Simulate battle won");
+            Console.WriteLine("  3 - Add Health");
+            Console.WriteLine("  4 - Add a Life");
+            Console.WriteLine("  0 - Exit");
+            Console.WriteLine("");
+            Console.Write("Enter Choice: ");
+
+            choice = Console.ReadKey(true);
+            Console.WriteLine("");
+
+            if (choice.Key == ConsoleKey.D1)
+            {
+                SimFight();
+            }
+
+            if (choice.Key == ConsoleKey.D2)
+            {
+                SimWin();
+            }
+
+            if (choice.Key == ConsoleKey.D3)
+            {
+                Heal();
+            }
+
+            if (choice.Key == ConsoleKey.D4)
+            {
+                Life();
+            }
+        }
+
+        static void Life()
+        {
+            if (lives == 0 && health == 0)
+            {
+                health = health + 100;
+
+                Console.WriteLine("");
+                Console.Write("Player has been revived!");
+                Pause();
+            }
+
+            else
+            {
+                lives = lives + 1;
+
+                Console.WriteLine("");
+                Console.Write("Player received a 1Up!");
+                Pause();
+            }
+        }
+
+        static void Heal()
+        {
+            if (health == 0 && lives == 0)
+            {
+                Console.WriteLine("");
+                Console.Write("The player is dead and cannot be healed!");
+                Pause();
+            }
+
+            else
+            {
+                health = health + medPack;
+
+                Console.WriteLine("");
+                Console.Write("Player received a +" + medPack + " health pack!");
+                Pause();
+            }
         }
 
 
         static void Pause()
         {
-            
-            Console.ReadKey();
+            Console.ReadKey(true);
             Console.WriteLine("");
         }
 
@@ -104,30 +153,29 @@ namespace Methods
             if (health == 0 && lives == 0)
             {
                 Console.WriteLine("");
-                Console.WriteLine("The player is out of lives!");
+                Console.Write("The player is out of lives!");
                 Pause();
-                
+
             }
 
             else
             {
                 Random rand = new Random();
-                int damage = rand.Next(0, 100);
-                TakeDamage(damage);
+                int harm = rand.Next(0, 100);
+                TakeDamage(harm);
 
                 if (health < 0)
                 {
-                    Pause();
-                    
+                    Console.WriteLine("");
+                    Console.WriteLine("");
                     Console.Write("Player has ");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("DIED");
                     Console.ResetColor();
                     Console.WriteLine("!");
-                    Pause();
-                    Console.WriteLine("One life hase been used.");
                     lives = (lives - 1);
-                    
+
+
                     if (lives == -1)
                     {
                         health = 0;
@@ -135,6 +183,7 @@ namespace Methods
                         score = 0;
                         multiplier = 1;
 
+                        Pause();
                         Console.Clear();
                         Console.WriteLine("");
                         Console.WriteLine("Player is out of lives!");
@@ -144,21 +193,17 @@ namespace Methods
                         Console.ResetColor();
                         Console.WriteLine("!");
                         Console.WriteLine("");
-                        Console.WriteLine("Score and multiplier have been reset!");
-                        Pause();
-
+                        Console.Write("Score and multiplier have been reset!");
                     }
 
                     else
                     {
+                        Console.WriteLine("");
+                        Console.Write("One life hase been used.");
                         health = 100;
-                        
                     }
-
-
                 }
                 Pause();
-                
             }
         }
 
@@ -167,44 +212,45 @@ namespace Methods
             if (lives == 0 && health == 0)
             {
                 Console.WriteLine("");
-                Console.WriteLine("Player is dead and cannot simulate battles!");
+                Console.Write("Player is dead and cannot simulate battles!");
                 Pause();
-
-                ShowHud();
-
             }
 
             else
             {
+
                 Random rand = new Random();
                 int scoreUp = rand.Next(1, 5);
-                float scoreTot = scoreUp * multiplier;
-                scoreTot = (float)Math.Round(scoreTot, 1);
 
-                Console.WriteLine("");
-                Console.WriteLine("Player has won a battle!");
-                Console.WriteLine("");
-                Console.WriteLine("Player received " + scoreUp + " points, x " + multiplier + " for a total of " + scoreTot + " points!");
-                Console.WriteLine("");
-                Console.WriteLine("Multiplier has gone up!");
-                Pause();
-
-                score = (score + scoreTot);
+                score = score + AddScore(scoreUp, multiplier);
                 multiplier = (multiplier + 0.1f);
 
                 score = (float)Math.Round(score, 1);
                 multiplier = (float)Math.Round(multiplier, 2);
-
-                ShowHud();
             }
+        }
+
+        static float AddScore(int pointsEarned, float scoreMultiplier)
+        {
+            float scoreTot = pointsEarned * scoreMultiplier;
+            scoreTot = (float)Math.Round(scoreTot, 1);
+
+            Console.WriteLine("");
+            Console.WriteLine("Player has won a battle!");
+            Console.WriteLine("");
+            Console.WriteLine("Player received " + pointsEarned + " points, x " + scoreMultiplier + " for a total of " + scoreTot + " points!");
+            Console.WriteLine("");
+            Console.Write("Multiplier has gone up!");
+            Pause();
+            return scoreTot;
+
         }
 
         static void TakeDamage(int damage)
         {
             health = health - damage;
-
-            Console.WriteLine("Player took " + damage + " damage!");
-                       
+            Console.WriteLine("");
+            Console.Write("Player took " + damage + " damage!");
         }
     }
 }
