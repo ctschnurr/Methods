@@ -37,25 +37,17 @@ namespace Methods
             Console.WriteLine("First we will simulate 5 instances of damage taken.");
             Pause();
 
-            SimFight();
-            ShowHud();
-            Pause();
+            int count = 0;
+            while (count < 5)
+            {
+                SimFight();
+                ShowHud();
+                Pause();
+                count++;
+            }
             
-            SimFight();
-            ShowHud();
-            Pause();
-
-            SimFight();
-            ShowHud();
-            Pause();
-
-            SimFight();
-            ShowHud();
-            Pause();
-
-            SimFight();
-            ShowHud();
-            Pause();
+            
+            
 
             Console.WriteLine("Now we will simulate 5 victories.");
             Pause();
@@ -126,7 +118,7 @@ namespace Methods
                 if (health < 0)
                 {
                     Pause();
-                    Console.WriteLine("");
+                    
                     Console.Write("Player has ");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("DIED");
